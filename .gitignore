@@ -17,6 +17,7 @@ public class ProductsTest extends AbstractTest{
     @Order(1)
     void getProducts_whenValid_shouldReturn() throws SQLException {
         //given
+        //Таблица наывается products, а не product
         String sql = "SELECT * FROM product WHERE menu_name='GOJIRA ROLL'";
         Statement stmt = getConnection().createStatement();
         int countTableSize = 0;
@@ -27,6 +28,7 @@ public class ProductsTest extends AbstractTest{
         }
         final Query query = getSession().createSQLQuery("SELECT * FROM products").addEntity(ProductsEntity.class);
         //then
+        //почему Вы ожидаете в одном случае 2 записи, а в другом 10 записей? В таблице изначально всего 1 запись
         Assertions.assertEquals(2, countTableSize);
         Assertions.assertEquals(10, query.list().size());
 
@@ -37,6 +39,7 @@ public class ProductsTest extends AbstractTest{
     @CsvSource({"GOJIRA ROLL, 300", "VIVA LAS VEGAS ROLL, 450", "FUTOMAKI, 700", "TOOTSY MAKI, 133"})
     void ProductsById_whenValid_shouldReturn(String name, int price) throws SQLException {
         //given
+        //Таблица наывается products, а не product
         String sql = "SELECT * FROM product WHERE menu_name='" + name + "'"; ;
         Statement stmt  = getConnection().createStatement();
         String nameString = "";
@@ -44,6 +47,7 @@ public class ProductsTest extends AbstractTest{
         //when
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
+            //у колонки price индекс 3
             nameString = rs.getString(4);
 
         }
